@@ -2,6 +2,9 @@ import Vue from 'vue'
 import './plugins/axios'
 import App from './App.vue'
 import router from './router'
+import VueSimpleAlert from "vue-simple-alert";
+
+Vue.use(VueSimpleAlert);
 
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
