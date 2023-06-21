@@ -29,14 +29,15 @@ export default {
     return {
       newsList: [],
       currentPage: 1,
-      perPage: 10,
+      perPage: 1,
       get itemsForList() {
         return this.newsList.slice((this.currentPage - 1) * this.perPage, this.currentPage * this.perPage);
       },
     };
   },
   mounted() {
-    this.$axios.get("/api/news").then((response) => {
+    let id = this.$route.params.id;
+    this.$axios.get("/api/tagnews/withTag/" + id).then((response) => {
       this.newsList = response.data;
     });
   },
@@ -59,9 +60,7 @@ export default {
   },
   methods: {
     goToNews(id) {
-      let route = this.$router.resolve("/news/singlenews/" + id);
-      window.open(route.href, "_blank");
-      this.$axios.patch("api/news/update/" + id);
+      this.$router.push("/news/singlenews/" + id);
     },
   },
 };

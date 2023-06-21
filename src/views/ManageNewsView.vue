@@ -1,9 +1,9 @@
 <template>
   <div class="news">
     <br />
-    <h1>Latest news</h1>
+    <h1>Manage news</h1>
+    <button class="btn btn-outline-primary" @click="add">Add news</button>
     <br />
-
     <ul id="itemList">
       <li v-for="news in itemsForList" :key="news.news_id">
         <div class="newsInfoDiv">
@@ -15,6 +15,8 @@
             Category: <b>{{ news.news_category.category_name }}</b>
           </p>
           <p>{{ news.news_text | shortText }}</p>
+          <button class="btn btn-secondary" @click="edit(news.news_id)">Edit</button>
+          <button class="btn btn-danger" @click="deleteNews(news.news_id)">Delete</button>
         </div>
       </li>
     </ul>
@@ -61,7 +63,17 @@ export default {
     goToNews(id) {
       let route = this.$router.resolve("/news/singlenews/" + id);
       window.open(route.href, "_blank");
-      this.$axios.patch("api/news/update/" + id);
+    },
+    add() {
+      this.$router.push({ name: "AddNews" });
+    },
+    edit(id) {
+      this.$router.push("/news/edit/" + id);
+    },
+    deleteNews(newsId) {
+      this.$axios.delete("api/news/delete/" + newsId).then((response) => {
+        window.location.reload();
+      });
     },
   },
 };
@@ -80,5 +92,8 @@ ul {
 }
 h3 {
   cursor: pointer;
+}
+.btn {
+  margin: 4px;
 }
 </style>

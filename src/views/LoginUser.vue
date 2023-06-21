@@ -1,15 +1,28 @@
 <template>
   <div class="pt-5">
-    <h1 v-if="email">Hello, {{email}}</h1>
-    <form @submit.prevent="login" >
+    <h1 v-if="email">Hello, {{ email }}</h1>
+    <form @submit.prevent="login">
       <div class="form-group">
         <label for="email">Email</label>
-        <input v-model="email" type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+        <input
+          v-model="email"
+          type="text"
+          class="form-control"
+          id="email"
+          aria-describedby="emailHelp"
+          placeholder="Enter email"
+        />
         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
       </div>
       <div class="form-group">
         <label for="exampleInputPassword1">Password</label>
-        <input v-model="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        <input
+          v-model="password"
+          type="password"
+          class="form-control"
+          id="exampleInputPassword1"
+          placeholder="Password"
+        />
       </div>
       <button type="submit" class="btn btn-primary mt-2">Login</button>
     </form>
@@ -21,28 +34,31 @@ export default {
   name: "LoginUser",
   data() {
     return {
-      email: '',
-      password: ''
-    }
+      email: "",
+      password: "",
+    };
   },
   methods: {
     login() {
-      this.$axios.post('/api/users/login', {
-        email: this.email,
-        password: this.password,
-      }).then((response) => {
-        localStorage.setItem('jwt', response.data.jwt)
-        this.$router.push({name: 'News'});
-        this.$parent.jwttoken = response.data.jwt;
-        console.log(this.$parent)
-      }, () => {
-        this.$alert("Invalid email or password")
-      })
-    }
-  }
-}
+      this.$axios
+        .post("/api/users/login", {
+          email: this.email,
+          password: this.password,
+        })
+        .then(
+          (response) => {
+            localStorage.setItem("jwt", response.data.jwt);
+            this.$router.push({ name: "News" });
+            this.$parent.jwttoken = response.data.jwt;
+            console.log(this.$parent);
+          },
+          () => {
+            this.$alert("Invalid email or password or user inactive");
+          }
+        );
+    },
+  },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

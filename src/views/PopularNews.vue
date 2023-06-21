@@ -1,7 +1,7 @@
 <template>
   <div class="news">
     <br />
-    <h1>Latest news</h1>
+    <h1>Most popular news</h1>
     <br />
 
     <ul id="itemList">
@@ -36,7 +36,7 @@ export default {
     };
   },
   mounted() {
-    this.$axios.get("/api/news").then((response) => {
+    this.$axios.get("/api/news/popular").then((response) => {
       this.newsList = response.data;
     });
   },

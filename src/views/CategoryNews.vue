@@ -1,7 +1,9 @@
 <template>
   <div class="news">
     <br />
-    <h1>Latest news</h1>
+    <h1>
+      News from category <u>{{ ctgName }}</u>
+    </h1>
     <br />
 
     <ul id="itemList">
@@ -29,15 +31,25 @@ export default {
     return {
       newsList: [],
       currentPage: 1,
-      perPage: 10,
+      perPage: 1,
+      ctgName: "",
       get itemsForList() {
         return this.newsList.slice((this.currentPage - 1) * this.perPage, this.currentPage * this.perPage);
       },
     };
   },
   mounted() {
-    this.$axios.get("/api/news").then((response) => {
+    let id = this.$route.params.id;
+    this.$axios.get("/api/news/allNewsByCategory/" + id).then((response) => {
       this.newsList = response.data;
+    });
+    this.$axios.get("/api/category/").then((response2) => {
+      const data = response2.data;
+      for (const d of data) {
+        if (d.category_id == id) {
+          this.ctgName = d.category_name;
+        }
+      }
     });
   },
   functions: {},
